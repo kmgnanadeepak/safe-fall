@@ -248,20 +248,21 @@ export default function Dashboard() {
         </motion.button>
 
         {/* Real-time Sensor Graphs */}
-        <div className="grid gap-4 md:grid-cols-2">
-          <SensorGraph
-            icon={Activity}
-            label="Accelerometer"
-            currentValues={sensorData.accelerometer}
-            delay={0.6}
-          />
-          <SensorGraph
-            icon={Smartphone}
-            label="Gyroscope"
-            currentValues={sensorData.gyroscope}
-            delay={0.7}
-          />
-        </div>
+       <div className="grid gap-4 md:grid-cols-2">
+  <SensorGraph
+    icon={Activity}
+    label="Accelerometer"
+    sensor="accelerometer"
+    delay={0.6}
+  />
+  <SensorGraph
+    icon={Smartphone}
+    label="Gyroscope"
+    sensor="gyroscope"
+    delay={0.7}
+  />
+</div>
+
 
         {/* Quick Links */}
         <div>

@@ -42,7 +42,7 @@ export default function LiveMap(){
 
   const {isLoaded}=useJsApiLoader({
     googleMapsApiKey:import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-  })
+  }) 
 
   /* ---------------- FETCH LOCATIONS ---------------- */
 
