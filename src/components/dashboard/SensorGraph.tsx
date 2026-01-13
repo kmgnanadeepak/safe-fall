@@ -6,10 +6,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import { LineChart, Line, XAxis, YAxis } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid } from 'recharts'
 
 interface DataPoint{
-  time:number
+  index:number
   x:number
   y:number
   z:number
@@ -28,18 +28,29 @@ const chartConfig={
   z:{label:'Z',color:'hsl(199,89%,48%)'},
 }
 
+const MAX_POINTS=30
+
 export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
-  const [data,setData]=useState<DataPoint[]>([])
-  const maxDataPoints=30
+  const [data,setData]=useState<DataPoint[]>(
+    Array.from({length:MAX_POINTS},(_,i)=>({
+      index:i,
+      x:2,
+      y:0,
+      z:-2,
+    }))
+  )
 
   useEffect(()=>{
     let sensorFired=false
 
     const pushData=(x:number,y:number,z:number)=>{
-      setData(prev=>{
-        const next=[...prev,{time:Date.now(),x,y,z}]
-        return next.length>maxDataPoints?next.slice(-maxDataPoints):next
-      })
+      setData(prev=>[
+        ...prev.slice(1),
+        {
+          index:prev[prev.length-1].index+1,
+          x,y,z,
+        },
+      ])
     }
 
     const handleMotion=(e:DeviceMotionEvent)=>{
@@ -56,7 +67,6 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
       }
     }
 
-    // iOS permission handling
     if(
       typeof DeviceMotionEvent!=='undefined' &&
       typeof (DeviceMotionEvent as any).requestPermission==='function'
@@ -70,10 +80,10 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
       window.addEventListener('devicemotion',handleMotion)
     }
 
-    // 💻 Laptop fallback → flat line
+    // 💻 Desktop fallback (no sensors)
     const fallback=setInterval(()=>{
       if(!sensorFired){
-        pushData(0,0,0)
+        pushData(2,0,-2)
       }
     },500)
 
@@ -82,8 +92,6 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
       clearInterval(fallback)
     }
   },[sensor])
-
-  const formatTime=(t:number)=>`${Math.floor((Date.now()-t)/1000)}s`
 
   return(
     <motion.div
@@ -104,15 +112,41 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
         </div>
       </div>
 
-      <div className="h-40">
+      <div className="h-58">
         <ChartContainer config={chartConfig}>
-          <LineChart data={data}>
-            <XAxis dataKey="time" tickFormatter={formatTime}/>
-            <YAxis/>
+          <LineChart
+            data={data}
+            margin={{top:10,right:10,left:10,bottom:35}}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="rgba(255,255,255,0.06)"
+            />
+
+            <XAxis
+              dataKey="index"
+              tick={false}
+              tickLine={false}
+              axisLine={{
+                stroke:'rgba(255,255,255,0.4)',
+                strokeWidth:2,
+              }}
+              label={{
+                value:'Time',
+                position:'insideBottom',
+                offset:-10,
+                fill:'rgba(255,255,255,0.5)',
+                fontSize:12,
+              }}
+            />
+
+            <YAxis domain={[-10,10]}/>
+
             <ChartTooltip content={<ChartTooltipContent/>}/>
-            <Line dataKey="x" stroke="hsl(0,84%,60%)" dot={false} isAnimationActive={false}/>
-            <Line dataKey="y" stroke="hsl(142,76%,36%)" dot={false} isAnimationActive={false}/>
-            <Line dataKey="z" stroke="hsl(199,89%,48%)" dot={false} isAnimationActive={false}/>
+
+            <Line dataKey="x" stroke="hsl(0,84%,60%)" strokeWidth={2} dot={false} isAnimationActive={false}/>
+            <Line dataKey="y" stroke="hsl(142,76%,36%)" strokeWidth={2} dot={false} isAnimationActive={false}/>
+            <Line dataKey="z" stroke="hsl(199,89%,48%)" strokeWidth={2} dot={false} isAnimationActive={false}/>
           </LineChart>
         </ChartContainer>
       </div>
