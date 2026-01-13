@@ -1,87 +1,86 @@
-🛡️ SafeFall – Fall Detection & Emergency Safety System
+# 🛡️ SafeFall  
+### Fall Detection & Emergency Safety System
 
-SafeFall is a modern, medical-tech focused web application designed to detect falls, monitor emergency events, and assist rapid response through a clean SaaS-style dashboard.
-It is built with a strong focus on accessibility, reliability, and real-time safety monitoring.
+SafeFall is a modern, medical-tech focused web application designed to **detect falls**, **monitor emergency events**, and **assist rapid response** through a clean SaaS-style dashboard.
 
-🚀 Project Overview
+---
 
-SafeFall aims to improve personal safety by:
+## 🚀 Project Overview
 
-Detecting fall events using sensor data
+**SafeFall** aims to improve personal safety by:
+- Detecting fall events using sensor data
+- Monitoring emergency patients in real time
+- Providing a dedicated hospital dashboard for emergency handling
+- Offering a clean, responsive UI optimized for dark & light modes
 
-Monitoring emergency patients in real time
+---
 
-Providing a dedicated hospital dashboard for emergency handling
+## 🧩 Key Features
 
-Offering a clean, responsive UI optimized for dark & light modes
+- 📉 **Fall Detection Visualization**  
+  Real-time accelerometer & gyroscope graph readings
 
-The system is designed to be scalable, secure, and suitable for healthcare and emergency environments.
+- 🏥 **Hospital Dashboard**  
+  Emergency-only dashboard (separate from patient UI)
 
-🧩 Key Features
+- 🧑‍⚕️ **Patient Monitoring**  
+  Live status and emergency alerts
 
-📉 Fall Detection Visualization
-Real-time accelerometer & gyroscope graph readings
+- 🔐 **Authentication**  
+  Secure login & signup (Google OAuth supported)
 
-🏥 Hospital Dashboard
-Dedicated emergency-only dashboard (separate from patient UI)
+- 🌗 **Dark / Light Mode**  
+  Fully conditional theme switching
 
-🧑‍⚕️ Patient Monitoring
-Live status and emergency alerts
+- 📱 **Responsive Design**  
+  Optimized for all screen sizes
 
-🔐 Authentication
-Secure login & signup (Google OAuth supported)
+---
 
-🌗 Dark / Light Mode
-Fully conditional theme switching (light mode supported)
+## 🛠️ Tech Stack
 
-📱 Responsive Design
-Optimized for desktop, tablet, and mobile devices
+Built using modern, production-ready technologies:
 
-🛠️ Tech Stack
+- **Vite**
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **shadcn/ui**
 
-This project is built using modern web technologies:
+---
 
-Vite – Fast development build tool
+## 📁 Project Structure
 
-React – Component-based UI
-
-TypeScript – Type-safe JavaScript
-
-Tailwind CSS – Utility-first styling
-
-shadcn/ui – Clean, accessible UI components
-
-📁 Project Structure
+```bash
 safe-fall/
 ├── src/
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # App pages & dashboards
-│   ├── hooks/          # Custom React hooks
-│   ├── utils/          # Helper utilities
-│   └── styles/         # Global styles
-├── public/             # Static assets
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   ├── utils/
+│   └── styles/
+├── public/
 ├── package.json
 └── README.md
-
-⚙️ Getting Started (Local Setup)
+⚙️ Getting Started
 1️⃣ Clone the Repository
+sh
+Copy code
 git clone <YOUR_GIT_URL>
-
 2️⃣ Navigate to the Project
+sh
+Copy code
 cd safe-fall
-
 3️⃣ Install Dependencies
+sh
+Copy code
 npm install
-
 4️⃣ Start Development Server
+sh
+Copy code
 npm run dev
-
-
-The app will start with hot reload enabled for fast development.
-
 🌐 Deployment
-
-You can deploy SafeFall on platforms like:
+Supported platforms:
 
 Vercel
 
@@ -89,44 +88,33 @@ Netlify
 
 Cloudflare Pages
 
-Build command:
-
+sh
+Copy code
 npm run build
-
-
-Preview build:
-
 npm run preview
-
 🔒 Security Focus
+Role-based dashboards
 
-Role-based dashboard separation
+Secure authentication
 
-Secure authentication flows
+Emergency-first UI clarity
 
-Prepared for encrypted API communication
-
-Designed for healthcare-grade UX clarity
+Healthcare-grade UX principles
 
 🎯 Use Cases
-
 Elderly fall detection
 
-Hospital emergency monitoring
-
-Smart wearable integrations
-
-Personal safety platforms
+Hospital emergency systems
 
 Medical IoT dashboards
 
-👨‍💻 Author
+Personal safety platforms
 
-Deepu
+👨‍💻 Author
+KM Gnana Deepak
 B.Tech CSE (2027)
-Focused on building real-world, production-grade systems with strong UI/UX and security.
+Focused on building real-world, production-grade systems
 
 📄 License
-
-This project is currently private / proprietary.
+Private / Proprietary
 All rights reserved.
