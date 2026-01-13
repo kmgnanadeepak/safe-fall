@@ -33,16 +33,7 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
   const maxDataPoints=30
 
   useEffect(()=>{
-    const handleMotion=(e:DeviceMotionEvent)=>{
-      if(sensor==='accelerometer' && e.accelerationIncludingGravity){
-        const {x=0,y=0,z=0}=e.accelerationIncludingGravity
-        pushData(x,y,z)
-      }
-      if(sensor==='gyroscope' && e.rotationRate){
-        const {alpha=0,beta=0,gamma=0}=e.rotationRate
-        pushData(alpha,beta,gamma)
-      }
-    }
+    let sensorFired=false
 
     const pushData=(x:number,y:number,z:number)=>{
       setData(prev=>{
@@ -51,7 +42,21 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
       })
     }
 
-    // iOS permission
+    const handleMotion=(e:DeviceMotionEvent)=>{
+      sensorFired=true
+
+      if(sensor==='accelerometer' && e.accelerationIncludingGravity){
+        const {x=0,y=0,z=0}=e.accelerationIncludingGravity
+        pushData(x,y,z)
+      }
+
+      if(sensor==='gyroscope' && e.rotationRate){
+        const {alpha=0,beta=0,gamma=0}=e.rotationRate
+        pushData(alpha,beta,gamma)
+      }
+    }
+
+    // iOS permission handling
     if(
       typeof DeviceMotionEvent!=='undefined' &&
       typeof (DeviceMotionEvent as any).requestPermission==='function'
@@ -65,7 +70,17 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
       window.addEventListener('devicemotion',handleMotion)
     }
 
-    return()=>window.removeEventListener('devicemotion',handleMotion)
+    // 💻 Laptop fallback → flat line
+    const fallback=setInterval(()=>{
+      if(!sensorFired){
+        pushData(0,0,0)
+      }
+    },500)
+
+    return()=>{
+      window.removeEventListener('devicemotion',handleMotion)
+      clearInterval(fallback)
+    }
   },[sensor])
 
   const formatTime=(t:number)=>`${Math.floor((Date.now()-t)/1000)}s`
@@ -83,7 +98,9 @@ export function SensorGraph({icon:Icon,label,sensor,delay=0}:SensorGraphProps){
         </div>
         <div className="flex-1">
           <h3 className="text-sm font-medium">{label}</h3>
-          <p className="text-xs text-muted-foreground">Live sensor data</p>
+          <p className="text-xs text-muted-foreground">
+            {sensor==='accelerometer'?'Accelerometer':'Gyroscope'} data
+          </p>
         </div>
       </div>
 
