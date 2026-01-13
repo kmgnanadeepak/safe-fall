@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from 'react';
 
 interface GeolocationState {
   latitude: number | null;
@@ -25,18 +25,13 @@ export function useGeolocation(options?: PositionOptions) {
     if (!navigator.geolocation) {
       setState((prev) => ({
         ...prev,
-        error: "Geolocation is not supported by your browser",
+        error: 'Geolocation is not supported by your browser',
         loading: false,
       }));
       return;
     }
 
-    setState((prev) => ({
-      ...prev,
-      loading: true,
-      error: null,
-      permissionDenied: false,
-    }));
+    setState((prev) => ({ ...prev, loading: true, error: null, permissionDenied: false }));
 
     const id = navigator.geolocation.watchPosition(
       (position) => {
@@ -50,20 +45,19 @@ export function useGeolocation(options?: PositionOptions) {
         });
       },
       (error) => {
-        let errorMessage = "Unable to retrieve location";
+        let errorMessage = 'Unable to retrieve location';
         let denied = false;
 
         switch (error.code) {
           case error.PERMISSION_DENIED:
-            errorMessage =
-              "Location permission denied. Please enable location access in your browser settings.";
+            errorMessage = 'Location permission denied. Please enable location access in your browser settings.';
             denied = true;
             break;
           case error.POSITION_UNAVAILABLE:
-            errorMessage = "Location information is unavailable.";
+            errorMessage = 'Location information is unavailable.';
             break;
           case error.TIMEOUT:
-            errorMessage = "The request to get your location timed out.";
+            errorMessage = 'The request to get your location timed out.';
             break;
         }
 
@@ -101,11 +95,6 @@ export function useGeolocation(options?: PositionOptions) {
       }
     };
   }, [watchId]);
-
-  // ✅ REQUIRED ADDITION (AUTO-START GPS)
-  useEffect(() => {
-    requestPermission();
-  }, [requestPermission]);
 
   return {
     ...state,
