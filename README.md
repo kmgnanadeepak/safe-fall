@@ -1,4 +1,4 @@
-# SafeFall Guardian
+# SafeFall
 
 Fall detection and emergency response app with patient and hospital dashboards, live map, analytics, and notifications.
 
